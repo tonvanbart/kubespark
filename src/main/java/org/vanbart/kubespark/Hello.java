@@ -7,6 +7,7 @@ import spark.Spark;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 public class Hello {
@@ -31,7 +32,12 @@ public class Hello {
         if (location == null) {
             log.warn("CONFIGLOC not set, falling back to default configuration");
             URL url = Hello.class.getClassLoader().getResource("configuration.json");
-            location = url.getFile();
+            try {
+                configuration = objectMapper.readValue(url, Configuration.class);
+            } catch (IOException e) {
+                log.error("Failed to read fallback configuration", e);
+                System.exit(1);
+            }
         }
 
         try {
