@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Paths;
 
 public class Hello {
 
@@ -20,32 +21,25 @@ public class Hello {
 
     public static void main(String[] args) {
         log.debug("main({})", (Object[]) args);
-        String configloc = System.getenv("CONFIGLOC");
-        configuration = getConfiguration();
+        try {
+            configuration = getConfiguration();
+        } catch (IOException e) {
+            log.error("Failed to read configuration", e);
+            System.exit(1);
+        }
         Spark.get("/hello", (req, resp) -> "Hello, World from Spark");
         Spark.get("/greeting", (req, resp) -> configuration.getGreeting());
     }
 
-    private static Configuration getConfiguration() {
+    private static Configuration getConfiguration() throws IOException {
         Configuration configuration = null;
         String location = System.getenv("CONFIGLOC");
         if (location == null) {
             log.warn("CONFIGLOC not set, falling back to default configuration");
-            URL url = Hello.class.getClassLoader().getResource("configuration.json");
-            try {
-                configuration = objectMapper.readValue(url, Configuration.class);
-            } catch (IOException e) {
-                log.error("Failed to read fallback configuration", e);
-                System.exit(1);
-            }
-        }
-
-        try {
-            log.info("read configuration:{}", location);
-            configuration = objectMapper.readValue(new File(location), Configuration.class);
-        } catch (IOException e) {
-            log.error("Failed to read '{}'", location, e);
-            System.exit(2);
+            configuration = objectMapper.readValue(Hello.class.getClassLoader().getResource("configuration.json"), Configuration.class);
+        } else {
+            log.info("Attempt to read config from {}", location);
+            configuration = objectMapper.readValue(Paths.get(location).toFile(), Configuration.class);
         }
         return configuration;
     }
