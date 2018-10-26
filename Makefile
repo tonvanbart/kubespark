@@ -9,5 +9,5 @@ run:
 
 .PHONY: run-bindmount
 run-bindmount:
-	echo bind mount ${CURDIR}/bindmount on /config
+	@echo bind mounting ${CURDIR}/bindmount on /config
 	docker run --rm -p4567:4567 -v ${CURDIR}/bindmount:/config -e CONFIGLOC='/config/configuration.json' kubespark:latest
