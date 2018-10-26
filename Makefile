@@ -11,3 +11,17 @@ run:
 run-bindmount:
 	@echo bind mounting ${CURDIR}/bindmount on /config
 	docker run --rm -p4567:4567 -v ${CURDIR}/bindmount:/config -e CONFIGLOC='/config/configuration.json' kubespark:latest
+
+.PHONY: volume-data
+volume-data:
+	@echo creating volume...
+	docker run --rm -v ${CURDIR}/volumedata:/src -v kubespark-volume:/target busybox cp /src/configuration.json /target
+
+.PHONY: inspect-volume
+inspect-volume:
+	docker run --rm -ti -v ${CURDIR}/volumedata:/src -v kubespark-volume:/target busybox sh
+
+
+.PHONY: run-volume
+run-volume:
+	docker run --rm -p4567:4567 -v kubespark-volume:/config -e CONFIGLOC='/config/configuration.json' kubespark
