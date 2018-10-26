@@ -56,7 +56,6 @@
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <finalName>kubespark</finalName>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
