@@ -11,6 +11,7 @@ See the [Makefile](Makefile) in the project for details.
 
 command | action
 --- | ---
+ `mvn compile exec:java` | Run the project without packaging as a Docker image.
  `make image` | creates a Docker image with the app inside. 
  `make run` | runs the image with the internal config. 
  `make run-bindmount` | Does a bind mount of `bindmount/` and runs the app with the config inside that.
