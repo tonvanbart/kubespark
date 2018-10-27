@@ -3,7 +3,7 @@
 Quick overview of externalizing config files.
 The example is a trivial Dockerized [Spark/Java](http://sparkjava.com/) "hello world" service which
 gets its greeting from a JSON config file. The location of the file is read from the
-environment variable `CONFIGLOG`, if this is not set it will fall back to a default configuration.
+environment variable `CONFIGLOC`, if this is not set it will fall back to a default configuration.
 <br>
 See the [Makefile](Makefile) in the project for details.
 
