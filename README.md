@@ -31,5 +31,33 @@ when running with `make run-bindmount`:
     
     greeting from bind mount
     
- 
+### Running on minikube
 
+Running on minikube will fail with an image pull error if the image can't be downloaded.
+To work around this, build the image using the Docker daemon from Minikube:
+
+    eval $(minikube docker-env)
+    make image
+    
+In the Kubernetes deployment, `imagePullPolicy` has to be set to `Never`, or Kubernetes
+will still try to pull the image. See [deployment.yaml](kubernetes/deployment.yaml) for details. 
+
+With minikube running, deploy the app from the top level project directory:
+
+    kubectl create -f ./kubernetes
+    
+Open the default entrypoint:
+
+    minikube service kubespark-entrypoint
+    
+This will open the entry point in the default browser, and show a 404 Not Found status
+since there is nothing configured there. If you add `/greeting` to the URL you should see
+the greeting from classpath again.<br>
+You can also do `minikube service list` to see the available services and their URLs or call
+`minikube service --url kubespark-entrypoint`.
+
+Using the last option, from the command line call:
+
+    http $(minikube service --url kubespark-entrypoint)/greeting
+    
+to retrieve the greeting using HttpIE or curl.
