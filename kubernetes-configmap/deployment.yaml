@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kubespark-appc
+  labels:
+    serviceType: kubespark-appc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: kubespark
+      labels:
+        serviceType: kubespark-appc
+    spec:
+      containers:
+        - name: kubespark
+          image: kubespark:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4567
+          volumeMounts:
+            - name: application-config
+              mountPath: "/config"
+              readOnly: true
+          env:
+          - name: CONFIGLOC
+            value: /config/application.json
+
+      volumes:
+      - name: application-config
+        configMap:
+          name: greet-config
+          items:
+            - key: configuration.json
+              path: application.json
