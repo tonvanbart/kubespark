@@ -64,7 +64,7 @@ to retrieve the greeting using HttpIE or curl.
 
 ### kubernetes configuration using configMap
 The subdirectory `kubernetes-configmap` has an example of a deployment configured with a configMap.
-To try it, delete the deployment you created before using `kubectl delete dployment`.
+To try it, delete the deployment you created before using `kubectl delete deployment`.
 Then deploy again from the top directory:
 
     kubectl create -f ./kubernetes-configmap
