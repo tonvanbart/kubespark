@@ -61,3 +61,24 @@ Using the last option, from the command line call:
     http $(minikube service --url kubespark-entrypoint)/greeting
     
 to retrieve the greeting using HttpIE or curl.
+
+### kubernetes configuration using configMap
+The subdirectory `kubernetes-configmap` has an example of a deployment configured with a configMap.
+To try it, delete the deployment you created before using `kubectl delete dployment`.
+Then deploy again from the top directory:
+
+    kubectl create -f ./kubernetes-configmap
+    
+To keep a distinction, the service name is slightly different:
+
+    http $(minikube service --url kubespark-entrypointc)/greeting
+    
+If all went well, you should see the value configured in `configmap.yaml`:
+
+    HTTP/1.1 200 OK
+    Content-Type: text/html;charset=utf-8
+    Date: Mon, 17 Dec 2018 22:11:25 GMT
+    Server: Jetty(9.4.z-SNAPSHOT)
+    Transfer-Encoding: chunked
+
+    greeting from configmap
