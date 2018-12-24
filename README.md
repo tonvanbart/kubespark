@@ -82,3 +82,16 @@ If all went well, you should see the value configured in `configmap.yaml`:
     Transfer-Encoding: chunked
 
     greeting from configmap
+
+### kubernetes objects combined in a single file
+The `deployments` subdirectory contains the deployments with all Kubernetes objects in a single file.
+To run a deployment:
+
+    kubectl create -f deployments/plain.yaml
+
+The same file (or subdirectory above) can be used to remove everything:
+
+    kubectl delete -f deployments/plain.yaml
+
+The service names in these cases will be `simple` resp. `configmap`. Use the `minikube service --url <service-name>` as described above to find the IP on which the service can be accessed.
+The deployments use different ports, so they can be used in parallel.

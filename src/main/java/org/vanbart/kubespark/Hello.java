@@ -20,7 +20,7 @@ public class Hello {
     private static Configuration configuration;
 
     public static void main(String[] args) {
-        log.debug("main({})", (Object[]) args);
+        log.info("main({})", (Object[]) args);
         try {
             configuration = getConfiguration();
         } catch (IOException e) {
@@ -28,10 +28,14 @@ public class Hello {
             System.exit(1);
         }
         Spark.get("/hello", (req, resp) -> "Hello, World from Spark");
-        Spark.get("/greeting", (req, resp) -> configuration.getGreeting());
+        Spark.get("/greeting", (req, resp) -> {
+            log.info("handle GET, will return \"{}\"", configuration.getGreeting());
+            return configuration.getGreeting();
+        });
     }
 
     private static Configuration getConfiguration() throws IOException {
+        log.info("getConfiguration()");
         Configuration configuration = null;
         String location = System.getenv("CONFIGLOC");
         if (location == null) {

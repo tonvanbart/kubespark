@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: configmap
+  labels:
+    serviceType: kubespark-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: kubespark
+      labels:
+        serviceType: kubespark-app
+    spec:
+      containers:
+      - name: kubespark
+        image: kubespark:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 4567
+        volumeMounts:
+        - name: application-config
+          mountPath: "/config"
+          readOnly: true
+        env:
+        - name: CONFIGLOC
+          value: /config/application.json
+
+      volumes:
+      - name: application-config
+        configMap:
+          name: greet-config
+          items:
+          - key: configuration.json
+            path: application.json
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: configmap
+  namespace: default
+spec:
+  selector:
+    serviceType: kubespark-app
+  ports:
+  - port: 4567
+    targetPort: 4567
+    nodePort: 30568
+  type: NodePort
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: greet-config
+  namespace: default
+data:
+  configuration.json: |
+    { "greeting" : "greeting from configmap" }
