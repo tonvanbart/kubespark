@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: simple
   labels:
+    # the label below is not used in this deployment
     serviceType: kubespark-app
 spec:
   replicas: 1
@@ -11,6 +12,8 @@ spec:
     metadata:
       name: kubespark
       labels:
+        # the service definition targets any pod with a matching name=value pair:
+        # here the label is "serviceType=kubespark-app" but "foo=bar" would work just as well.
         serviceType: kubespark-app
     spec:
       containers:
@@ -28,6 +31,7 @@ metadata:
   namespace: default
 spec:
   selector:
+    # match on Pods which have this label=value pair
     serviceType: kubespark-app
   ports:
   - port: 4567
