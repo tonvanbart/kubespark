@@ -58,12 +58,6 @@ the greeting from the command line:
     
 You can also do `minikube service list` or `kubectl get services` to see the available services.
 
-Using the last option, from the command line call:
-
-    http $(minikube service --url kubespark-entrypoint)/greeting
-    
-to retrieve the greeting using HttpIE or curl.
-
 ### kubernetes configuration using configMap
 The file [configmap.yaml](deployments/configmap.yaml) has an example of a deployment configured with a configMap.
 To try it, deploy again from the top directory:
