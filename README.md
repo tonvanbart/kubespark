@@ -83,4 +83,15 @@ If all went well, you should see the value configured in `configmap.yaml`:
     Transfer-Encoding: chunked
 
     greeting from configmap
+    
+### kubernetes configuration using Secret
+The file [secret.yaml](deployments/secret.yaml) shows the greeting being configured using a Kubernetes `Secret`:
+
+    kubectl create -f deployments/secret.yaml
+    
+The resulting service will be exposed on a separate port again.
+
+    http `minikube service --url secret`/greeting
+    
+The output should show a different greeting.
 
