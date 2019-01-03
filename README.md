@@ -85,7 +85,7 @@ The file [secret.yaml](deployments/secret.yaml) shows the greeting being configu
     
 The resulting service will be exposed on a separate port again.
 
-    http `minikube service --url secret`/greeting
+    http `minikube service --url secret/greeting`
     
 The output should show a different greeting.
 
