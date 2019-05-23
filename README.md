@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/tonvanbart/kubespark.svg?branch=master)](https://travis-ci.com/tonvanbart/kubespark)
+
 ## Docker and Kubernetes examples
 
 Quick overview of running and configuring a simple Java application in Docker and Kubernetes.
